@@ -1,18 +1,16 @@
-const express = require("express")
-const compression = require("compression")
-const { createShortUrl, getOriginalUrl } = require("./url.js")
+import express from "express"
+import compression from "compression"
+import { createShortUrl, getOriginalUrl } from "./url.js" 
 
 const app = express()
 
 app.use(compression())
 app.use(express.json())
 
-// Rota principal para teste de compressão
 app.get("/", (req, res) => {
   res.send("Esta resposta está comprimida!")
 })
 
-// Endpoint para encurtar a URL
 app.post("/api/shorten", (req, res) => {
   const { originalUrl } = req.body
 
@@ -24,7 +22,6 @@ app.post("/api/shorten", (req, res) => {
   return res.json({ originalUrl, shortUrl })
 })
 
-// Endpoint para redirecionar a URL encurtada
 app.get("/:shortUrl", (req, res) => {
   const { shortUrl } = req.params
   const originalUrl = getOriginalUrl(shortUrl)
